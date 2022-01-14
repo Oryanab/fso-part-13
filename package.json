@@ -9,7 +9,8 @@
     "express": "^4.17.2",
     "jsonwebtoken": "^8.5.1",
     "pg": "^8.7.1",
-    "sequelize": "^6.13.0"
+    "sequelize": "^6.13.0",
+    "umzug": "^2.3.0"
   },
   "devDependencies": {
     "nodemon": "^2.0.15"

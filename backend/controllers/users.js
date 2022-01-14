@@ -1,6 +1,7 @@
 const router = require("express").Router();
 
 const { User, Blog } = require("../models/index");
+const { isAdmin } = require("./middleware/blogsMiddleware");
 
 router.get("/", async (req, res) => {
   const users = await User.findAll({
@@ -30,18 +31,18 @@ router.get("/:id", async (req, res) => {
   }
 });
 
-router.put("/:username", async (req, res) => {
+router.put("/:username", isAdmin, async (req, res) => {
   const user = await User.findOne({
     where: {
       username: req.params.username,
     },
   });
   if (user) {
-    user.username = req.body.username;
+    user.disabled = req.body.disabled;
     await user.save();
     res.json(user);
   } else {
-    res.status(404).json({ msg: "error" });
+    res.status(404).end();
   }
 });
 

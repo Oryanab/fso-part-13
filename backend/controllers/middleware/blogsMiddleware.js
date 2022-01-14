@@ -1,5 +1,6 @@
 const { SECRET } = require("../../utils/config");
 const jwt = require("jsonwebtoken");
+const { User, Blog } = require("../../models/index");
 
 const tokenExtractor = (req, res, next) => {
   const authorization = req.get("authorization");
@@ -16,6 +17,15 @@ const tokenExtractor = (req, res, next) => {
   next();
 };
 
+const isAdmin = async (req, res, next) => {
+  const user = await User.findByPk(req.decodedToken.id);
+  if (!user.admin) {
+    return res.status(401).json({ error: "operation not allowed" });
+  }
+  next();
+};
+
 module.exports = {
   tokenExtractor,
+  isAdmin,
 };
